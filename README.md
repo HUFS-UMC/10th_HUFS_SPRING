@@ -17,7 +17,7 @@ git pull origin main
 2. 본인 작업 브랜치 생성
 
 ```bash
-git checkout -b feat/야르-mission1
+git checkout -b week1-bodol
 ```
 
 3. 작업 후 변경사항 커밋
@@ -30,7 +30,7 @@ git commit -m "feat: 1주차 미션 기본 구조 추가"
 4. 원격 브랜치로 푸시
 
 ```bash
-git push origin feat/야르-mission1
+git push origin week1-bodol
 ```
 
 5. GitHub에서 `main` 브랜치로 PR 생성
