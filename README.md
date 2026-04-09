@@ -53,6 +53,20 @@ week1-bodol
 week2-bodol
 ```
 
+## 🔀 PR 네이밍 컨벤션
+
+PR 제목도 브랜치 네이밍과 동일한 형식으로 작성합니다.
+
+```bash
+week()-닉네임
+```
+
+예시:
+
+```bash
+week1-bodol
+week2-bodol
+```
 
 ## 📝 커밋 메시지 컨벤션
 
