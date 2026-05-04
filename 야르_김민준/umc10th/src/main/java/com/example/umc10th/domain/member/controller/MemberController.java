@@ -1,34 +1,28 @@
 package com.example.umc10th.domain.member.controller;
 
-import com.example.umc10th.domain.member.dto.MemberReqDTO;
+import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
+import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
-import com.example.umc10th.global.apiPayload.code.MemberSuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/members")
 public class MemberController {
 
-    // 다음 주차에 구현
-    //private final MemberService memberService;
+    private final MemberService memberService;
 
-    // 마이페이지 조회 API
-    @PostMapping("/me")
-    public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestBody MemberReqDTO.GetInfo request
-    ) {
-        return ApiResponse.onSuccess(MemberSuccessCode.OK, null);
-    }
+    @GetMapping("/{memberId}/my-page")
+    @Operation(summary = "마이 페이지 - 내 정보 조회 API")
+    public ApiResponse<MemberResDTO.GetInfo> getMyPageInfo(@PathVariable Long memberId) {
 
-    // 홈 화면 조회 API
-    @GetMapping("/{userId}/home")
-    public ApiResponse<MemberResDTO.HomeView> getHome(
-            @PathVariable Long userId
-    ) {
-        return ApiResponse.onSuccess(MemberSuccessCode.OK, null);
+        Member member = memberService.getMyPageInfo(memberId);
+
+        return ApiResponse.onSuccess(MemberSuccessCode.OK,MemberConverter.toGetInfo(member));
     }
 }

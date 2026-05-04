@@ -1,7 +1,7 @@
-package com.example.umc10th.domain.member.entity.mapping;
+package com.example.umc10th.domain.mission.entity.mapping;
 
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.member.entity.Term;
+import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,21 +10,21 @@ import lombok.*;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Table(name = "member_term")
-public class MemberTerm extends BaseEntity {
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class MemberMission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 나는 N(다)이고, Member는 1(일)이다.
+    @Column(nullable = false)
+    private Boolean isComplete;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // 나는 N(다)이고, Term은 1(일)이다.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "term_id")
-    private Term term;
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 }
