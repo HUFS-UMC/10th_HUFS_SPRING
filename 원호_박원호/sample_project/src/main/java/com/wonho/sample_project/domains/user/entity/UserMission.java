@@ -20,4 +20,6 @@ public class UserMission {
 
     @ManyToOne
     private Mission mission;
+
+    private Boolean is_completed;
 }
