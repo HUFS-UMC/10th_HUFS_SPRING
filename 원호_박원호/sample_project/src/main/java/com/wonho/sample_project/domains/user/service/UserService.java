@@ -46,11 +46,12 @@ public class UserService {
     public UserRequestDTO.GetMission getUserMissions(Long userId, Boolean isCompleted, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserMission> userMissionPage;
+        User user = userRepository.findById(userId).orElseThrow();
 
         if (isCompleted != null) {
-            userMissionPage = userMissionRepository.findByUser_UserIdAndIsCompleted(userId, isCompleted, pageable);
+            userMissionPage = userMissionRepository.findByUserAndCompleted(user, isCompleted, pageable);
         } else {
-            userMissionPage = userMissionRepository.findByUser_UserId(userId, pageable);
+            userMissionPage = userMissionRepository.findByUser(user, pageable);
         }
 
         List<UserRequestDTO.GetMission.MissionInfo> missionInfos = userMissionPage.getContent().stream()
@@ -60,7 +61,7 @@ public class UserService {
                         .conditional(userMission.getMission().getConditional())
                         .point(userMission.getMission().getPoint())
                         .deadline(userMission.getMission().getDeadline())
-                        .isCompleted(userMission.getIs_completed())
+                        .isCompleted(userMission.getCompleted())
                         .build())
                 .collect(Collectors.toList());
 
@@ -86,7 +87,7 @@ public class UserService {
             throw new RuntimeException("This mission does not belong to the user");
         }
 
-        userMission.setIs_completed(true);
+        userMission.setCompleted(true);
         userMissionRepository.save(userMission);
 
         return new UserRequestDTO.UpdateMissionComplete(true);

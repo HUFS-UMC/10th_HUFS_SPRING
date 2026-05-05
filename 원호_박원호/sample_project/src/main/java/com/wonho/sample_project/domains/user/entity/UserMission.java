@@ -21,5 +21,6 @@ public class UserMission {
     @ManyToOne
     private Mission mission;
 
-    private Boolean is_completed;
+    @Column(name = "is_completed")
+    private Boolean completed;
 }
