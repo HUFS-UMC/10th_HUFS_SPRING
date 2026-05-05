@@ -1,7 +1,7 @@
-package com.springboot.umc10thlea.domain.review.entity;
+package com.springboot.umc10thlea.domain.member.entity.mapping;
 
 import com.springboot.umc10thlea.domain.member.entity.Member;
-import com.springboot.umc10thlea.domain.mission.entity.Store;
+import com.springboot.umc10thlea.domain.mission.entity.Mission;
 import com.springboot.umc10thlea.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Review extends BaseEntity {
+public class MemberMission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,12 +21,9 @@ public class Review extends BaseEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 
-    @Column(nullable = false)
-    private Integer rating;
-
-    @Column(columnDefinition = "TEXT")
-    private String content;
+    @Column(nullable = false, length = 20)
+    private String status; // "CHALLENGING", "COMPLETE" 등
 }
