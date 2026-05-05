@@ -8,8 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.umc10th.global.BaseEntity;
 
 @Entity
 @Getter
@@ -17,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "food")
-public class Food {
+public class Food extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,5 @@ public class Food {
     @Enumerated(EnumType.STRING)
     private FoodName name;
 
-    @OneToMany(mappedBy = "food")
-    private List<MemberFood> memberFoodList = new ArrayList<>();
+
 }

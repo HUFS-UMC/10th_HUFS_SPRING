@@ -1,10 +1,7 @@
 package com.example.umc10th.domain.member.entity;
 
-import com.example.umc10th.domain.member.entity.mapping.MemberFood;
-import com.example.umc10th.domain.member.entity.mapping.MemberTerm;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.SocialType;
-import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,8 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Getter
 @Entity
@@ -66,10 +62,6 @@ public class Member extends BaseEntity {
     @Column(name = "point")
     private Integer point;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<MemberFood> memberFoodList = new ArrayList<>();
 
-    @OneToMany
-    private List<MemberTerm> memberTermList = new ArrayList<>();
 
 }

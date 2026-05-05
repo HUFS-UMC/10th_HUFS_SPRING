@@ -25,6 +25,4 @@ public class Reply extends BaseEntity {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(mappedBy = "reply")
-    private Review review;
 }
