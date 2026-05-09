@@ -1,4 +1,26 @@
 package com.example.umc10th.domain.member.entity;
 
-public class Term {
+import com.example.umc10th.domain.member.enums.TermName;
+import com.example.umc10th.global.BaseEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "term")
+public class Term extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    private TermName name;
 }
