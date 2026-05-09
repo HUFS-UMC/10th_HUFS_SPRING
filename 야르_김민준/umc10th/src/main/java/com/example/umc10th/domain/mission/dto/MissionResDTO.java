@@ -1,36 +1,46 @@
 package com.example.umc10th.domain.mission.dto;
 
 import lombok.Builder;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class MissionResDTO {
 
-    // 미션 목록 조회 응답 (가게별 미션 또는 내 미션)
+    // 홈 화면: 지역별 도전 가능 미션 목록 조회
     @Builder
-    public record MissionInfo(
+    public record MissionListDTO(
+            List<MissionDetailDTO> missionList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ) {}
+
+    @Builder
+    public record MissionDetailDTO(
             Long missionId,
             String storeName,
             Integer point,
-            String conditional,
-            LocalDate deadline,
-            Boolean isComplete // is_complete 매핑
+            String conditional
     ) {}
 
-    // 미션 목록 리스트를 감싸는 DTO
+    // MY MISSION 화면: 내 미션 진행/완료 목록 조회
     @Builder
-    public record MissionList(
-            List<MissionInfo> missions,
-            Integer listSize
+    public record MemberMissionListDTO(
+            List<MemberMissionDetailDTO> missionList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
     ) {}
 
-    // 미션 성공 업데이트 응답
     @Builder
-    public record MissionResult(
+    public record MemberMissionDetailDTO(
             Long memberMissionId,
-            Boolean isComplete,
-            LocalDateTime updatedAt
+            String storeName,
+            Integer point,
+            String conditional,
+            Boolean isComplete
     ) {}
 }

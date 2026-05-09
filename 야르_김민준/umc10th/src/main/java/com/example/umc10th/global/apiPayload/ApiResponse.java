@@ -25,7 +25,6 @@ public class ApiResponse<T> {
     private T result;
 
     // 성공한 경우 (result 포함)
-    // 성공한 경우 (result 포함)
     public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result) {
         return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
     }

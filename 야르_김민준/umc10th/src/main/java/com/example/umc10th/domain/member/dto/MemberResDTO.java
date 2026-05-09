@@ -21,7 +21,6 @@ public class MemberResDTO {
     public record HomeView(
             String name,
             Integer point,
-            List<MissionResDTO.MissionInfo> activeMissions
+            List<MissionResDTO.MissionDetailDTO> activeMissions // MissionInfo 대신 MissionDetailDTO 사용
     ) {}
 }
-

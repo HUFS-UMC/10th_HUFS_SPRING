@@ -4,6 +4,7 @@ import com.example.umc10th.domain.auth.dto.AuthReqDTO;
 import com.example.umc10th.domain.auth.dto.AuthResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class AuthController {
 
     // 회원가입 API
     @PostMapping("/signup")
+    @Operation(summary = "회원가입 API", description = "회원가입을 진행합니다.")
     public ApiResponse<AuthResDTO.SignUpResult> signUp(
             @RequestBody AuthReqDTO.SignUp request
     ) {
