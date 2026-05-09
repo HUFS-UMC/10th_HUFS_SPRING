@@ -1,4 +1,4 @@
-package com.wonho.sample_project.domains.missions.dto;
+package com.wonho.sample_project.domains.review.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,12 +7,13 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.List;
 
-public class MissionRequestDTO {
+public class ReviewRequestDTO {
+
     @AllArgsConstructor
     @Builder
     @Getter
-    public static class GetMissions {
-        private List<MissionInfo> missions;
+    public static class GetReviews {
+        private List<ReviewInfo> reviews;
         private Integer page;
         private Integer size;
         private Long totalElements;
@@ -22,13 +23,14 @@ public class MissionRequestDTO {
         @AllArgsConstructor
         @Builder
         @Getter
-        public static class MissionInfo {
-            private Long missionId;
+        public static class ReviewInfo {
+            private Long reviewId;
+            private Long storeId;
             private String storeName;
-            private String regionName;
-            private String conditional;
-            private Integer point;
-            private LocalDate deadline;
+            private String content;
+            private Integer star;
+            private LocalDate createdAt;
+            private Boolean inProgress;
         }
     }
 }

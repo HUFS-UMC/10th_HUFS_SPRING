@@ -1,5 +1,6 @@
-package com.wonho.sample_project.domains.store.controller;
+package com.wonho.sample_project.domains.review.controller;
 
+import com.wonho.sample_project.domains.review.dto.ReviewRequestDTO;
 import com.wonho.sample_project.domains.review.service.ReviewService;
 import com.wonho.sample_project.domains.store.dto.StoreRequestDTO;
 import com.wonho.sample_project.global.api.ApiResponse;
@@ -10,18 +11,29 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/stores")
-public class StoreController {
+@RequestMapping("/reviews")
+public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/{storeId}/review")
+    @PostMapping("/stores/{storeId}")
     public ApiResponse<StoreRequestDTO.CreateReviewResponse> createReview(
             @PathVariable Long storeId,
             @RequestParam Long userId,
             @RequestBody StoreRequestDTO.CreateReview request) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         StoreRequestDTO.CreateReviewResponse result = reviewService.createReview(storeId, userId, request);
+        return ApiResponse.onSuccess(code, result);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ApiResponse<ReviewRequestDTO.GetReviews> getUserReviews(
+            @PathVariable Long userId,
+            @RequestParam(required = false) Boolean inProgress,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size) {
+        BaseSuccessCode code = GeneralSuccessCode.OK;
+        ReviewRequestDTO.GetReviews result = reviewService.getUserReviews(userId, inProgress, page, size);
         return ApiResponse.onSuccess(code, result);
     }
 }

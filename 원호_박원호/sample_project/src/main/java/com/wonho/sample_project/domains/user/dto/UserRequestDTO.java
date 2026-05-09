@@ -1,10 +1,14 @@
 package com.wonho.sample_project.domains.user.dto;
 
+import com.wonho.sample_project.domains.user.enums.Address;
 import com.wonho.sample_project.domains.user.enums.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UserRequestDTO {
     @RequiredArgsConstructor
@@ -19,8 +23,44 @@ public class UserRequestDTO {
         private final String phone_number;
     };
 
-    public static class GetUser {};
-    public static class GetMission {};
+    @AllArgsConstructor
+    @Builder
+    @Getter
+    public static class GetUser {
+        private Long userId;
+        private String name;
+        private Gender gender;
+        private LocalDate birth;
+        private Address address;
+        private String detailAddress;
+        private String email;
+        private String phoneNumber;
+        private Integer point;
+    };
+
+    @AllArgsConstructor
+    @Builder
+    @Getter
+    public static class GetMission {
+        private List<MissionInfo> missions;
+        private Integer page;
+        private Integer size;
+        private Long totalElements;
+        private Integer totalPages;
+        private Boolean hasNext;
+
+        @AllArgsConstructor
+        @Builder
+        @Getter
+        public static class MissionInfo {
+            private Long missionId;
+            private String storeName;
+            private String conditional;
+            private Integer point;
+            private LocalDate deadline;
+            private Boolean isCompleted;
+        }
+    };
 
     @RequiredArgsConstructor
     @Getter
