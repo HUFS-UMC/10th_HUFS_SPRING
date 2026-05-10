@@ -1,5 +1,6 @@
 package com.wonho.sample_project.domains.user.dto;
 
+import com.wonho.sample_project.domains.user.entity.UserMission;
 import com.wonho.sample_project.domains.user.enums.Address;
 import com.wonho.sample_project.domains.user.enums.Gender;
 import lombok.AllArgsConstructor;
@@ -59,6 +60,17 @@ public class UserRequestDTO {
             private Integer point;
             private LocalDate deadline;
             private Boolean isCompleted;
+
+            public static MissionInfo fromUserMission(UserMission userMission){
+                return MissionInfo.builder()
+                        .missionId(userMission.getMission().getMission_id())
+                        .storeName(userMission.getMission().getStore().getName())
+                        .conditional(userMission.getMission().getConditional())
+                        .point(userMission.getMission().getPoint())
+                        .deadline(userMission.getMission().getDeadline())
+                        .isCompleted(userMission.getCompleted())
+                        .build();
+            }
         }
     };
 

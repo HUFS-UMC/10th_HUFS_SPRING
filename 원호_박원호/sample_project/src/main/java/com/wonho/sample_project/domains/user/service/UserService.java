@@ -55,14 +55,7 @@ public class UserService {
         }
 
         List<UserRequestDTO.GetMission.MissionInfo> missionInfos = userMissionPage.getContent().stream()
-                .map(userMission -> UserRequestDTO.GetMission.MissionInfo.builder()
-                        .missionId(userMission.getMission().getMission_id())
-                        .storeName(userMission.getMission().getStore().getName())
-                        .conditional(userMission.getMission().getConditional())
-                        .point(userMission.getMission().getPoint())
-                        .deadline(userMission.getMission().getDeadline())
-                        .isCompleted(userMission.getCompleted())
-                        .build())
+                .map(UserRequestDTO.GetMission.MissionInfo::fromUserMission)
                 .collect(Collectors.toList());
 
         return UserRequestDTO.GetMission.builder()
