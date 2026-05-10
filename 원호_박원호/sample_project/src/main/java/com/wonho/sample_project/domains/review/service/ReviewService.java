@@ -78,15 +78,7 @@ public class ReviewService {
                 }
 
                 List<ReviewRequestDTO.GetReviews.ReviewInfo> reviewInfos = reviewPage.getContent().stream()
-                                .map(review -> ReviewRequestDTO.GetReviews.ReviewInfo.builder()
-                                                .reviewId(review.getReview_id())
-                                                .storeId(review.getStore() != null ? review.getStore().getStore_id() : null)
-                                                .storeName(review.getStore() != null ? review.getStore().getName() : null)
-                                                .content(review.getContent())
-                                                .star(review.getStar())
-                                                .createdAt(review.getCreated_at())
-                                                .inProgress(review.getReply() == null)
-                                                .build())
+                                .map(ReviewRequestDTO.GetReviews.ReviewInfo::fromUserReview)
                                 .collect(Collectors.toList());
 
                 return ReviewRequestDTO.GetReviews.builder()
