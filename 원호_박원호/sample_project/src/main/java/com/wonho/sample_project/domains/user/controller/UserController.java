@@ -17,8 +17,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/")
-    public ApiResponse<UserRequestDTO.CreateUser> createUser(@Valid UserRequestDTO.CreateUser createUser) {
+    @PostMapping
+    @ResponseBody
+    public ApiResponse<UserRequestDTO.CreateUser> createUser(@Valid @RequestBody UserRequestDTO.CreateUser createUser) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
 
         User user = userService.createUser(createUser);
@@ -28,6 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
+    @ResponseBody
     public ApiResponse<UserRequestDTO.GetUser> getUser(@PathVariable Long userId) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         UserRequestDTO.GetUser result = userService.getUser(userId);
@@ -35,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/missions")
+    @ResponseBody
     public ApiResponse<UserRequestDTO.GetMission> getMissions(
             @PathVariable Long userId,
             @RequestParam(required = false) Boolean isCompleted,
@@ -46,6 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/missions/{missionId}/complete")
+    @ResponseBody
     public ApiResponse<UserRequestDTO.UpdateMissionComplete> getMissionComplete(
             @PathVariable Long userId,
             @PathVariable Long missionId) {

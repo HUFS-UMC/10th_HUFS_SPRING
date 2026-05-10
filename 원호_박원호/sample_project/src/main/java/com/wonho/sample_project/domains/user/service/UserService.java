@@ -7,6 +7,7 @@ import com.wonho.sample_project.domains.user.repository.UserMissionRepository;
 import com.wonho.sample_project.domains.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +18,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
-@Transactional(readOnly = true)
+@RequiredArgsConstructor
+@Transactional
 public class UserService {
-    private UserRepository userRepository;
-    private UserMissionRepository userMissionRepository;
+    private final UserRepository userRepository;
+    private final UserMissionRepository userMissionRepository;
 
     public User createUser(UserRequestDTO.CreateUser user) {
         User newUser = User.builder()

@@ -15,5 +15,5 @@ public enum GeneralErrorCode implements BaseErrorCode{
 
     private final HttpStatus status;
     private final String code;
-    private final String message;
+    private final Object message;
 }
