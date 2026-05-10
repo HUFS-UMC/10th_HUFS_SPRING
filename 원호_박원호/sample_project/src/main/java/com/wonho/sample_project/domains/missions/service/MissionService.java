@@ -34,14 +34,7 @@ public class MissionService {
         }
 
         List<MissionRequestDTO.GetMissions.MissionInfo> missionInfos = missionPage.getContent().stream()
-                .map(mission -> MissionRequestDTO.GetMissions.MissionInfo.builder()
-                        .missionId(mission.getMission_id())
-                        .storeName(mission.getStore().getName())
-                        .regionName(mission.getStore().getRegion().getName())
-                        .conditional(mission.getConditional())
-                        .point(mission.getPoint())
-                        .deadline(mission.getDeadline())
-                        .build())
+                .map(MissionRequestDTO.GetMissions.MissionInfo::fromMission)
                 .collect(Collectors.toList());
 
         return MissionRequestDTO.GetMissions.builder()
