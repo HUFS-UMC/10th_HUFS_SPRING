@@ -1,10 +1,12 @@
 package com.wonho.sample_project.domains.user.controller;
 
 import com.wonho.sample_project.domains.user.dto.UserRequestDTO;
+import com.wonho.sample_project.domains.user.entity.User;
 import com.wonho.sample_project.domains.user.service.UserService;
 import com.wonho.sample_project.global.api.ApiResponse;
 import com.wonho.sample_project.global.api.code.BaseSuccessCode;
 import com.wonho.sample_project.global.api.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/")
-    public ApiResponse<UserRequestDTO.CreateUser> createUser() {
+    public ApiResponse<UserRequestDTO.CreateUser> createUser(@Valid UserRequestDTO.CreateUser createUser) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
+
+        User user = userService.createUser(createUser);
 
         // Todo: result 에 payload 넣기
         return ApiResponse.onSuccess(code, null);

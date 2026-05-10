@@ -18,7 +18,7 @@ public class UserRequestDTO {
         private final String name;
         private final Gender gender;
         private final LocalDate birth;
-        private final String address;
+        private final Address address;
         private final String detailed_address;
         private final String email;
         private final String phone_number;

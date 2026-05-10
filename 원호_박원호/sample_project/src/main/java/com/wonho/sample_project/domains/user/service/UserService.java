@@ -24,6 +24,21 @@ public class UserService {
     private UserRepository userRepository;
     private UserMissionRepository userMissionRepository;
 
+    public User createUser(UserRequestDTO.CreateUser user) {
+        User newUser = User.builder()
+                .birth(user.getBirth())
+                .point(0)
+                .address(user.getAddress())
+                .detail_address(user.getDetailed_address())
+                .email(user.getEmail())
+                .name(user.getName())
+                .phone_number(user.getPhone_number())
+                .gender(user.getGender())
+                .build();
+
+        return userRepository.save(newUser);
+    }
+
     public UserRequestDTO.GetUser getUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
 
