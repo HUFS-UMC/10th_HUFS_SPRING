@@ -3,6 +3,7 @@ package com.springboot.umc10thlea.domain.member.controller;
 import com.springboot.umc10thlea.domain.member.dto.*;
 import com.springboot.umc10thlea.global.apiPayload.ApiResponse;
 import com.springboot.umc10thlea.domain.member.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,14 +32,14 @@ public class MemberController {
         return ApiResponse.onSuccess(memberService.getMyPage(memberId));
     }
 
-    // --- [3]  내 미션 목록 조회 (Service 연동 완료) ---
-    @GetMapping("/missions")
+    // --- [3]  내가 진행중인 미션 목록 조회 (Service 연동 완료) ---
+    @PostMapping("/missions")
     public ApiResponse<MemberMissionListResDto> getMemberMissions(
-            @RequestParam String status,
-            @RequestParam Integer page,
-            @RequestParam Integer size) {
-        Long memberId = 1L; // JWT 도입 전까지 임시 유저 ID
-        return ApiResponse.onSuccess(memberService.getMyMissions(memberId, status, page, size));
+            @Valid @RequestBody MemberMissionListReqDto request) {
+        return ApiResponse.onSuccess(memberService.getMyChallengingMissions(
+                request.getUserId(),
+                request.getPageNumber(),
+                request.getPageSize()));
     }
 
     // --- [4] 미션 완료 처리 API  ---
