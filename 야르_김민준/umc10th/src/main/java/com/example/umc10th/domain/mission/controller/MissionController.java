@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.mission.controller;
 
 import com.example.umc10th.domain.mission.converter.MissionConverter;
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
@@ -8,6 +9,7 @@ import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +40,15 @@ public class MissionController {
 
         Page<MemberMission> memberMissionPage = missionService.getMyMissionsByComplete(memberId, isComplete, page);
         return ApiResponse.onSuccess(MissionSuccessCode.MEMBER_MISSION_FOUND,MissionConverter.toMemberMissionListDTO(memberMissionPage));
+    }
+
+    @PostMapping("/my-missions/ongoing")
+    @Operation(summary = "내가 진행중인 미션 목록 조회 API", description = "진행 중인 미션(isComplete=false) 목록을 조회합니다. 사용자 ID는 Request Body로 전달합니다.")
+    public ApiResponse<MissionResDTO.MemberMissionListDTO> getMyOngoingMissions(
+            @RequestBody @Valid MissionReqDTO.MyMissionListReqDTO request,
+            @RequestParam(name = "page", defaultValue = "0") Integer page) {
+
+        Page<MemberMission> memberMissionPage = missionService.getMyMissionsByComplete(request.getMemberId(), false, page);
+        return ApiResponse.onSuccess(MissionSuccessCode.MEMBER_MISSION_FOUND, MissionConverter.toMemberMissionListDTO(memberMissionPage));
     }
 }
