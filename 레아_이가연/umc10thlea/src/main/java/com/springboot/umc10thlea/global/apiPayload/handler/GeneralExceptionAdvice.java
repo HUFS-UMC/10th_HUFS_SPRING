@@ -10,6 +10,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
 
@@ -23,9 +26,17 @@ public class GeneralExceptionAdvice {
 
     // @Valid 검증 실패 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        Map<String, String> errors = new LinkedHashMap<>();
+        e.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.putIfAbsent(error.getField(), error.getDefaultMessage()));
+
         return ResponseEntity.status(GeneralErrorCode.BAD_REQUEST.getStatus())
-                .body(ApiResponse.onFailure(GeneralErrorCode.BAD_REQUEST));
+                .body(new ApiResponse<>(
+                        false,
+                        GeneralErrorCode.BAD_REQUEST.getCode(),
+                        GeneralErrorCode.BAD_REQUEST.getMessage(),
+                        errors));
     }
 
     // 그 외 정의되지 않은 모든 예외 처리
