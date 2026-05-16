@@ -25,8 +25,13 @@ public class ApiResponse<T> {
         return new ApiResponse<>(true, "COMMON200", "요청에 성공하였습니다.", result);
     }
 
+    // 특정 성공 코드 사용 시
+    public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result) {
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
+    }
+
     // 마이페이지 조회 성공 등 특정 성공 코드 사용 시
-    public static <T> ApiResponse<T> of(    BaseSuccessCode code, T result) {
+    public static <T> ApiResponse<T> of(BaseSuccessCode code, T result) {
         return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
     }
 
