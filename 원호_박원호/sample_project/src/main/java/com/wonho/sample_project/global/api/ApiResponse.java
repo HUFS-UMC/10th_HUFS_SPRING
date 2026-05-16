@@ -18,15 +18,15 @@ public class ApiResponse<T> {
     @JsonProperty("code")
     private final String code;
 
-    @JsonProperty("message")
-    private final String message;
+    @JsonProperty("payload")
+    private final Object message;
 
     @JsonProperty("result")
     private T result;
 
     // General Success Response
     public static<T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result) {
-        return new ApiResponse<>(false, code.getCode(), code.getMessage(), result);
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
     }
 
     // General Failure Response

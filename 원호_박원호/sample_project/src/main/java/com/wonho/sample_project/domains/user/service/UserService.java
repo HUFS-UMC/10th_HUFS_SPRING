@@ -7,6 +7,7 @@ import com.wonho.sample_project.domains.user.repository.UserMissionRepository;
 import com.wonho.sample_project.domains.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +18,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
-@Transactional(readOnly = true)
+@RequiredArgsConstructor
+@Transactional
 public class UserService {
-    private UserRepository userRepository;
-    private UserMissionRepository userMissionRepository;
+    private final UserRepository userRepository;
+    private final UserMissionRepository userMissionRepository;
+
+    public User createUser(UserRequestDTO.CreateUser user) {
+        User newUser = User.builder()
+                .birth(user.getBirth())
+                .point(0)
+                .address(user.getAddress())
+                .detail_address(user.getDetailed_address())
+                .email(user.getEmail())
+                .name(user.getName())
+                .phone_number(user.getPhone_number())
+                .gender(user.getGender())
+                .build();
+
+        return userRepository.save(newUser);
+    }
 
     public UserRequestDTO.GetUser getUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
@@ -55,14 +70,7 @@ public class UserService {
         }
 
         List<UserRequestDTO.GetMission.MissionInfo> missionInfos = userMissionPage.getContent().stream()
-                .map(userMission -> UserRequestDTO.GetMission.MissionInfo.builder()
-                        .missionId(userMission.getMission().getMission_id())
-                        .storeName(userMission.getMission().getStore().getName())
-                        .conditional(userMission.getMission().getConditional())
-                        .point(userMission.getMission().getPoint())
-                        .deadline(userMission.getMission().getDeadline())
-                        .isCompleted(userMission.getCompleted())
-                        .build())
+                .map(UserRequestDTO.GetMission.MissionInfo::fromUserMission)
                 .collect(Collectors.toList());
 
         return UserRequestDTO.GetMission.builder()

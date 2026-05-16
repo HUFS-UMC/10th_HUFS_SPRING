@@ -1,26 +1,39 @@
 package com.wonho.sample_project.domains.user.dto;
 
+import com.wonho.sample_project.domains.user.entity.UserMission;
 import com.wonho.sample_project.domains.user.enums.Address;
 import com.wonho.sample_project.domains.user.enums.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class UserRequestDTO {
+
     @RequiredArgsConstructor
     @Getter
     public static class CreateUser {
-        private final String name;
-        private final Gender gender;
-        private final LocalDate birth;
-        private final String address;
-        private final String detailed_address;
-        private final String email;
-        private final String phone_number;
+        @NotNull
+        private String name;
+
+        @NotNull
+        private Gender gender;
+
+        @NotNull
+        private LocalDate birth;
+
+        @NotNull
+        private Address address;
+
+        @NotNull
+        private String detailed_address;
+
+        @NotNull
+        private String email;
+
+        @NotNull
+        private String phone_number;
     };
 
     @AllArgsConstructor
@@ -59,6 +72,17 @@ public class UserRequestDTO {
             private Integer point;
             private LocalDate deadline;
             private Boolean isCompleted;
+
+            public static MissionInfo fromUserMission(UserMission userMission){
+                return MissionInfo.builder()
+                        .missionId(userMission.getMission().getMission_id())
+                        .storeName(userMission.getMission().getStore().getName())
+                        .conditional(userMission.getMission().getConditional())
+                        .point(userMission.getMission().getPoint())
+                        .deadline(userMission.getMission().getDeadline())
+                        .isCompleted(userMission.getCompleted())
+                        .build();
+            }
         }
     };
 

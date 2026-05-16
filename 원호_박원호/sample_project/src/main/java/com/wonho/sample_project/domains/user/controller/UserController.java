@@ -1,10 +1,12 @@
 package com.wonho.sample_project.domains.user.controller;
 
 import com.wonho.sample_project.domains.user.dto.UserRequestDTO;
+import com.wonho.sample_project.domains.user.entity.User;
 import com.wonho.sample_project.domains.user.service.UserService;
 import com.wonho.sample_project.global.api.ApiResponse;
 import com.wonho.sample_project.global.api.code.BaseSuccessCode;
 import com.wonho.sample_project.global.api.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +17,19 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/")
-    public ApiResponse<UserRequestDTO.CreateUser> createUser() {
+    @PostMapping
+    @ResponseBody
+    public ApiResponse<UserRequestDTO.CreateUser> createUser(@Valid @RequestBody UserRequestDTO.CreateUser createUser) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
+
+        User user = userService.createUser(createUser);
 
         // Todo: result 에 payload 넣기
         return ApiResponse.onSuccess(code, null);
     }
 
     @GetMapping("/{userId}")
+    @ResponseBody
     public ApiResponse<UserRequestDTO.GetUser> getUser(@PathVariable Long userId) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         UserRequestDTO.GetUser result = userService.getUser(userId);
@@ -31,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/missions")
+    @ResponseBody
     public ApiResponse<UserRequestDTO.GetMission> getMissions(
             @PathVariable Long userId,
             @RequestParam(required = false) Boolean isCompleted,
@@ -42,6 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/missions/{missionId}/complete")
+    @ResponseBody
     public ApiResponse<UserRequestDTO.UpdateMissionComplete> getMissionComplete(
             @PathVariable Long userId,
             @PathVariable Long missionId) {

@@ -6,6 +6,7 @@ import com.wonho.sample_project.domains.store.dto.StoreRequestDTO;
 import com.wonho.sample_project.global.api.ApiResponse;
 import com.wonho.sample_project.global.api.code.BaseSuccessCode;
 import com.wonho.sample_project.global.api.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class ReviewController {
     public ApiResponse<StoreRequestDTO.CreateReviewResponse> createReview(
             @PathVariable Long storeId,
             @RequestParam Long userId,
-            @RequestBody StoreRequestDTO.CreateReview request) {
+            @Valid @RequestBody StoreRequestDTO.CreateReview request) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         StoreRequestDTO.CreateReviewResponse result = reviewService.createReview(storeId, userId, request);
         return ApiResponse.onSuccess(code, result);
