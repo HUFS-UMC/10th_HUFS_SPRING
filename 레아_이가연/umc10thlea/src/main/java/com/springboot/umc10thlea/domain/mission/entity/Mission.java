@@ -24,6 +24,9 @@ public class Mission extends BaseEntity {
     @Column(nullable = false)
     private Integer point;
 
+    @Column(nullable = false, length = 255)
+    private String conditional;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;

@@ -1,4 +1,4 @@
-package com.springboot.umc10thlea.domain.member.dto;
+package com.springboot.umc10thlea.domain.review.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberMissionListResDto {
-    private List<MemberMissionDetailResDto> data;
-    private Integer pageNumber;
+public class ReviewListResDto {
+    private List<ReviewDetailResDto> data;
+    private Boolean hasNext;
+    private String nextCursor;
     private Integer pageSize;
 }
