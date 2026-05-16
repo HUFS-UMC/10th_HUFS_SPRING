@@ -14,17 +14,17 @@ public class MissionConverter {
     ){
         return Mission.builder()
                 .store(store)
-                .conditional(dto.conditional())
-                .point(dto.point())
-                .deadline(dto.deadline())
+                .conditional(dto.getConditional())
+                .point(dto.getPoint())
+                .deadline(dto.getDeadline())
                 .build();
     }
 
     //가게 내 미션 조회
-    public static MissionResDto.GetMission toGetMission(
+    public static MissionResDto.StoreMission toStoreMission(
         Mission mission
     ){
-        return MissionResDto.GetMission.builder()
+        return MissionResDto.StoreMission.builder()
                 .conditional(mission.getConditional())
                 .point(mission.getPoint())
                 .missionId(mission.getId())

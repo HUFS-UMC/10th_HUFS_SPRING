@@ -1,7 +1,5 @@
 package com.springboot.umc10thlea.domain.mission.controller;
 
-import com.springboot.umc10thlea.domain.mission.dto.MissionHomeDetailResDto;
-import com.springboot.umc10thlea.domain.mission.dto.MissionHomeResDto;
 import com.springboot.umc10thlea.domain.mission.dto.MissionReqDto;
 import com.springboot.umc10thlea.domain.mission.dto.MissionResDto;
 import com.springboot.umc10thlea.domain.mission.service.MissionService;
@@ -22,7 +20,7 @@ public class MissionController {
 
     //홈화면
     @GetMapping("/home/missions")
-    public ApiResponse<MissionHomeResDto> getHome(
+    public ApiResponse<MissionResDto.Home> getHome(
             @RequestParam Long regionId,
             @RequestParam Integer page,
             @RequestParam Integer size) {
@@ -41,7 +39,7 @@ public class MissionController {
 
     //가게 내 미션 조회
     @GetMapping("/stores/{storeId}/missions")
-    public ApiResponse<List<MissionResDto.GetMission>> getMissions(
+    public ApiResponse<List<MissionResDto.StoreMission>> getMissions(
             @PathVariable Long storeId
     ){
         BaseSuccessCode code = MissionSuccessCode.OK;

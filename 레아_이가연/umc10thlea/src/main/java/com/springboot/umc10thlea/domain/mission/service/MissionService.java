@@ -1,8 +1,6 @@
 package com.springboot.umc10thlea.domain.mission.service;
 
 import com.springboot.umc10thlea.domain.mission.converter.MissionConverter;
-import com.springboot.umc10thlea.domain.mission.dto.MissionHomeDetailResDto;
-import com.springboot.umc10thlea.domain.mission.dto.MissionHomeResDto;
 import com.springboot.umc10thlea.domain.mission.dto.MissionReqDto;
 import com.springboot.umc10thlea.domain.mission.dto.MissionResDto;
 import com.springboot.umc10thlea.domain.mission.entity.Mission;
@@ -44,7 +42,7 @@ public class MissionService {
     }
 
     //가게 내 미션들 조회
-    public List<MissionResDto.GetMission> getMissions(
+    public List<MissionResDto.StoreMission> getMissions(
             Long storeId
     ){
         //가게 내 미션들 조회
@@ -52,27 +50,27 @@ public class MissionService {
 
         //미션들 응답 DTO로 포장하기
         return missionList.stream()
-                .map(MissionConverter::toGetMission)
+                .map(MissionConverter::toStoreMission)
                 .toList();
 
     }
 
 
     //홈 화면 (미션 조회)
-    public MissionHomeResDto getHomeMissions(Long regionId, Integer page, Integer size) {
+    public MissionResDto.Home getHomeMissions(Long regionId, Integer page, Integer size) {
         Page<Mission> missionPage = missionRepository.findMissionsByRegionId(regionId, PageRequest.of(page - 1, size));
 
-        List<MissionHomeDetailResDto> missionDetailList = missionPage.getContent().stream()
-                .map(m -> MissionHomeDetailResDto.builder()
+        List<MissionResDto.HomeDetail> missionDetailList = missionPage.getContent().stream()
+                .map(m -> MissionResDto.HomeDetail.builder()
                         .missionId(m.getId())
                         .title(m.getTitle())
                         .point(m.getPoint())
                         // 예제용 D-Day (실제론 현재 시간 기준 계산 로직 필요)
                         .dDay("D-" + java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.now(), m.getDeadline()))
-                        .build())
+                .build())
                 .collect(Collectors.toList());
 
-        return MissionHomeResDto.builder()
+        return MissionResDto.Home.builder()
                 .regionName("테스트 지역") // 나중에 Region 조회 추가
                 .regionProgress(70)
                 .missions(missionDetailList)
