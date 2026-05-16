@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Builder
@@ -29,4 +31,13 @@ public class Mission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @Column(name = "conditional")
+    private String conditional;
+
+    @Column(name = "point")
+    private Integer point;
+
+    @Column(name = "deadline")
+    private LocalDate deadline;
 }

@@ -1,0 +1,12 @@
+package com.example.umc10th.domain.mission.exception;
+
+import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
+import com.example.umc10th.global.apiPayload.code.ProjectException;
+import lombok.Getter;
+
+@Getter
+public class StoreException extends ProjectException {
+    public StoreException(BaseErrorCode code) {
+        super(code);
+    }
+}
