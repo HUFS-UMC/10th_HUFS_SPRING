@@ -13,11 +13,14 @@ import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -37,5 +40,13 @@ public class ReviewService {
         Review newReview = ReviewConverter.toReview(request, member, store);
 
         return reviewRepository.save(newReview);
+    }
+
+    public Slice<Review> getMyReviewsById(Long memberId, Long cursorId, Integer size) {
+        return reviewRepository.findMyReviewsByIdCursor(memberId, cursorId, PageRequest.of(0, size));
+    }
+
+    public Slice<Review> getMyReviewsByRating(Long memberId, Float cursorStar, Long cursorId, Integer size) {
+        return reviewRepository.findMyReviewsByRatingCursor(memberId, cursorStar, cursorId, PageRequest.of(0, size));
     }
 }
