@@ -1,6 +1,5 @@
 package com.springboot.umc10thlea.global.apiPayload;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.springboot.umc10thlea.global.apiPayload.code.BaseErrorCode;
@@ -17,7 +16,6 @@ public class ApiResponse<T> {
     private final Boolean isSuccess;
     private final String code;
     private final String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
     // 성공 응답 전용

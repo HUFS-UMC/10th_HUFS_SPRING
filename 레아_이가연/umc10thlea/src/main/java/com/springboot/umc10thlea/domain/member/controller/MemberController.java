@@ -23,15 +23,6 @@ public class MemberController {
     private final MemberService memberService;
     private final ReviewService reviewService;
 
-    // --- [1] 회원가입 API  ---
-    @PostMapping("/signup")
-    public ApiResponse<MemberSignUpResDto> signUp(@Valid @RequestBody MemberSignUpReqDto request) {
-        return ApiResponse.onSuccess(MemberSignUpResDto.builder()
-                .memberId(1L)
-                .createdAt(LocalDateTime.now())
-                .build());
-    }
-
     // --- [2] 마이페이지 조회 (Service 연동 완료) ---
     @GetMapping("/mypage")
     public ApiResponse<MemberMyPageResDto> getMyPage() {

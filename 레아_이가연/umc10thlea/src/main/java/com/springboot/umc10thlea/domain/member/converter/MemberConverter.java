@@ -2,13 +2,54 @@ package com.springboot.umc10thlea.domain.member.converter;
 
 import com.springboot.umc10thlea.domain.member.dto.MemberMissionDetailResDto;
 import com.springboot.umc10thlea.domain.member.dto.MemberMissionListResDto;
+import com.springboot.umc10thlea.domain.member.dto.MemberSignUpReqDto;
+import com.springboot.umc10thlea.domain.member.dto.MemberSignUpResDto;
+import com.springboot.umc10thlea.domain.member.entity.Food;
+import com.springboot.umc10thlea.domain.member.entity.Member;
+import com.springboot.umc10thlea.domain.member.entity.Term;
+import com.springboot.umc10thlea.domain.member.entity.mapping.MemberFood;
 import com.springboot.umc10thlea.domain.member.entity.mapping.MemberMission;
+import com.springboot.umc10thlea.domain.member.entity.mapping.MemberTerm;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MemberConverter {
+
+    public static Member toMember(MemberSignUpReqDto request, String encodedPassword) {
+        return Member.builder()
+                .nickname(request.getName())
+                .email(request.getEmail())
+                .password(encodedPassword)
+                .gender(request.getGender())
+                .birth(request.getBirth())
+                .address(request.getAddress())
+                .detailAddress(request.getDetailAddress())
+                .build();
+    }
+
+    public static MemberSignUpResDto toMemberSignUpResDto(Member member) {
+        return MemberSignUpResDto.builder()
+                .memberId(member.getId())
+                .createdAt(member.getCreatedAt())
+                .build();
+    }
+
+    public static MemberFood toMemberFood(Member member, Food food) {
+        return MemberFood.builder()
+                .member(member)
+                .food(food)
+                .build();
+    }
+
+    public static MemberTerm toMemberTerm(Member member, Term term, Boolean agreed) {
+        return MemberTerm.builder()
+                .member(member)
+                .term(term)
+                .agreed(agreed)
+                .build();
+    }
 
     public static MemberMissionDetailResDto toMemberMissionDetailResDto(MemberMission memberMission) {
         return MemberMissionDetailResDto.builder()
