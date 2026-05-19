@@ -23,6 +23,7 @@ public class User {
     private Long user_id;
 
     private String name;
+    private String password;
     private Gender gender;
     private LocalDate birth;
     private Address address;
