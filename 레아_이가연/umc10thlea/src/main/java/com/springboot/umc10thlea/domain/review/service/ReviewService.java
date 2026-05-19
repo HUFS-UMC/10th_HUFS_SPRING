@@ -67,8 +67,8 @@ public class ReviewService {
             ScoreCursor scoreCursor = parseScoreCursor(cursor);
             Slice<Review> reviewSlice = reviewRepository.findMyReviewsOrderByRatingDescAndIdDesc(
                     userId,
-                    scoreCursor.score(),
-                    scoreCursor.reviewId(),
+                    scoreCursor.getScore(),
+                    scoreCursor.getReviewId(),
                     PageRequest.of(0, pageSize + 1));
             return ReviewConverter.toReviewListResDto(reviewSlice, sort, pageSize);
         }
@@ -103,6 +103,21 @@ public class ReviewService {
         }
     }
 
-    private record ScoreCursor(Integer score, Long reviewId) {
+    private static class ScoreCursor {
+        private final Integer score;
+        private final Long reviewId;
+
+        private ScoreCursor(Integer score, Long reviewId) {
+            this.score = score;
+            this.reviewId = reviewId;
+        }
+
+        private Integer getScore() {
+            return score;
+        }
+
+        private Long getReviewId() {
+            return reviewId;
+        }
     }
 }
