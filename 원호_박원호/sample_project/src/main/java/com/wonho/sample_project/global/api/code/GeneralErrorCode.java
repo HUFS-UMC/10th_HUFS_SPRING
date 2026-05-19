@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum GeneralErrorCode implements BaseErrorCode{
-    OK(
-            HttpStatus.OK,
+    BAD_REQUEST(
+            HttpStatus.BAD_REQUEST,
             "COMMON400_1",
             "잘못된 요청입니다."
     );
