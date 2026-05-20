@@ -45,12 +45,16 @@ public class Member extends BaseEntity {
     @Column(name = "social_uid", nullable = false)
     private String socialUid;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
     @Column(name = "email")
     private String email;
+
 
     @Column(name = "phone_number")
     private String phoneNumber;
