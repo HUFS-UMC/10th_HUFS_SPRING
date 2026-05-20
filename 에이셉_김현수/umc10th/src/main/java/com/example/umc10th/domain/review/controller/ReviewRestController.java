@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.controller;
 
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
+import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stores")
 public class ReviewRestController {
 
+    private final ReviewService reviewService;
+
     @Operation(summary = "리뷰 작성", description = "특정 가게에 리뷰를 작성합니다.")
     @PostMapping("/{storeId}/reviews")
     public ApiResponse<ReviewResDTO.PostResultDTO> postReview(
             @PathVariable(name = "storeId") Long storeId,
             @RequestBody @Valid ReviewReqDTO.PostDTO request) {
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(reviewService.postReview(storeId, request));
     }
 }
