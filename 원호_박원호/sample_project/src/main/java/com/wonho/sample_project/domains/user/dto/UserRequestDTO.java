@@ -18,6 +18,9 @@ public class UserRequestDTO {
         private String name;
 
         @NotNull
+        private String password;
+
+        @NotNull
         private Gender gender;
 
         @NotNull
