@@ -1,6 +1,5 @@
 package com.springboot.umc10thlea.global.apiPayload;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.springboot.umc10thlea.global.apiPayload.code.BaseErrorCode;
@@ -17,7 +16,6 @@ public class ApiResponse<T> {
     private final Boolean isSuccess;
     private final String code;
     private final String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
     // 성공 응답 전용
@@ -25,8 +23,13 @@ public class ApiResponse<T> {
         return new ApiResponse<>(true, "COMMON200", "요청에 성공하였습니다.", result);
     }
 
+    // 특정 성공 코드 사용 시
+    public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result) {
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
+    }
+
     // 마이페이지 조회 성공 등 특정 성공 코드 사용 시
-    public static <T> ApiResponse<T> of(    BaseSuccessCode code, T result) {
+    public static <T> ApiResponse<T> of(BaseSuccessCode code, T result) {
         return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
     }
 
