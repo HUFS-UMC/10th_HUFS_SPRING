@@ -2,7 +2,7 @@ package com.example.umc10th.domain.member.controller;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
-import com.example.umc10th.domain.member.exception.Code.MemberSuccessCode;
+import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
@@ -28,4 +28,6 @@ public class MemberController {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code,memberService.getInfo(dto));
     }
+
+
 }

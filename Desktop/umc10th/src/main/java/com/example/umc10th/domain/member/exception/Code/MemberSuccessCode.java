@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.member.exception.Code;
+package com.example.umc10th.domain.member.exception.code;
 
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.Getter;
