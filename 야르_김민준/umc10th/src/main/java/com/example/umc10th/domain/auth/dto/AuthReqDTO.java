@@ -12,6 +12,10 @@ public class AuthReqDTO {
     public record SignUp(
             @NotBlank(message = "이름은 필수 입력 항목입니다.")
             String name,
+            @NotBlank(message = "이메일은 필수 입력 항목입니다.")
+            String email,
+            @NotBlank(message = "비밀번호는 필수 입력 항목입니다.")
+            String password,
             @NotBlank(message = "성별은 필수 입력 항목입니다.")
             String gender,
             @NotNull(message = "생년월일은 필수 입력 항목입니다.")

@@ -19,7 +19,7 @@ git pull origin main
 ```bash
 git checkout -b week1-bodol
 ```
-
+git g
 3. 작업 후 변경사항 커밋
 
 ```bash
