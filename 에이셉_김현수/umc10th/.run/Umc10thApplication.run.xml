@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Umc10thApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="umc10th.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.umc10th.Umc10thApplication" />
+    <envs>
+      <env name="DB_URL" value="jdbc:mysql://localhost:3306/umc10th" />
+      <env name="DB_USER" value="root" />
+      <env name="DB_PW" value="1234" />
+    </envs>
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

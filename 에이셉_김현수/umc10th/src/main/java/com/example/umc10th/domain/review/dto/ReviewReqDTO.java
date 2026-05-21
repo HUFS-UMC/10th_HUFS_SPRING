@@ -11,6 +11,8 @@ public class ReviewReqDTO {
 
     @Getter
     public static class PostDTO {
+        @NotNull
+        Long memberId; // 인증 구현 전 임시 필드
         @NotBlank
         String content;
         @NotNull
