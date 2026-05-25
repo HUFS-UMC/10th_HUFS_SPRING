@@ -1,5 +1,10 @@
 package com.wonho.sample_project.global.config;
 
+import com.wonho.sample_project.global.filter.JwtAuthFilter;
+import com.wonho.sample_project.global.service.CustomUserDetailsService;
+import com.wonho.sample_project.global.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.internal.Abstract;
 import org.hibernate.sql.exec.spi.JdbcOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +15,13 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.webauthn.management.JdbcPublicKeyCredentialUserEntityRepository;
 import org.springframework.security.web.webauthn.management.JdbcUserCredentialRepository;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final String[] ALLOWED_ORIGINS = {
             "*"
@@ -38,19 +45,14 @@ public class SecurityConfig {
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/swagger-ui/index.html", true)
-                        .permitAll()
-                )
+                .formLogin(AbstractHttpConfigurer::disable)
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
-                )
-                .webAuthn(webAuth ->
-                        webAuth.rpId("localhost")
-                                .allowedOrigins(ALLOWED_ORIGINS)
-                                .disableDefaultRegistrationPage(true));
+                );
 
         return http.build();
     }
@@ -68,5 +70,13 @@ public class SecurityConfig {
     @Bean
     public JdbcUserCredentialRepository jdbcUserCredentialRepository(JdbcOperations jdbc) {
         return new JdbcUserCredentialRepository(jdbc);
+    }
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter(){
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
     }
 }

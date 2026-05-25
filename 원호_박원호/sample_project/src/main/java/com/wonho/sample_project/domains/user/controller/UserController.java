@@ -6,6 +6,8 @@ import com.wonho.sample_project.domains.user.service.UserService;
 import com.wonho.sample_project.global.api.ApiResponse;
 import com.wonho.sample_project.global.api.code.BaseSuccessCode;
 import com.wonho.sample_project.global.api.code.GeneralSuccessCode;
+import com.wonho.sample_project.global.entity.AuthMember;
+import com.wonho.sample_project.global.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping
     @ResponseBody
@@ -30,9 +33,13 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @ResponseBody
-    public ApiResponse<UserRequestDTO.GetUser> getUser(@PathVariable Long userId) {
+    public ApiResponse<UserRequestDTO.LoginUser> getUser(@PathVariable Long userId) {
+
+
+        System.out.println("얘도작동...");
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        UserRequestDTO.GetUser result = userService.getUser(userId);
+        UserRequestDTO.LoginUser result = userService.getLoginUser(userId);
+
         return ApiResponse.onSuccess(code, result);
     }
 

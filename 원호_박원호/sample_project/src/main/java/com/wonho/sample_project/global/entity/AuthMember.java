@@ -2,6 +2,7 @@ package com.wonho.sample_project.global.entity;
 
 
 import com.wonho.sample_project.domains.user.entity.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
+@Builder
 public class AuthMember implements UserDetails {
 
     private final User user;
