@@ -16,6 +16,10 @@ public enum MemberErrorCode implements BaseErrorCode {
             "MEMBER400_1",
             "이미 존재하는 이메일입니다."),
 
+    LOGIN_FAILED(HttpStatus.UNAUTHORIZED,
+            "MEMBER401_1",
+            "이메일 또는 비밀번호가 올바르지 않습니다."),
+
     REQUIRED_TERM_NOT_AGREED(HttpStatus.BAD_REQUEST,
             "MEMBER400_2",
             "필수 약관에 동의해야 합니다."),
