@@ -17,6 +17,12 @@ spring:
       hibernate:
         format_sql: true
 
+jwt:
+  # 최소 32자(256비트) 이상이어야 HMAC-SHA256 서명이 가능합니다. 운영환경에서는 환경변수로 주입하세요.
+  secret: ${JWT_SECRET:umc10th-super-secret-key-must-be-at-least-32-bytes-long!}
+  # 밀리초 단위. 86400000 = 24시간
+  expiration: 86400000
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
