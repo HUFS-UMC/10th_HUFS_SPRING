@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.member.dto;
 
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import lombok.Builder;
 import java.util.List;
 
@@ -13,7 +14,9 @@ public class MemberResDTO {
             String profileUrl,
             String email,
             String phoneNumber,
-            Integer point
+            Integer point,
+            List<ReviewResDTO.MyReviewDetailDTO> reviews,
+            List<MissionResDTO.MissionDetailDTO> missions
     ) {}
 
     // 홈 화면 조회 응답 DTO

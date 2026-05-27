@@ -2,6 +2,7 @@ package com.example.umc10th.domain.auth.service;
 
 import com.example.umc10th.domain.auth.converter.AuthConverter;
 import com.example.umc10th.domain.auth.dto.AuthReqDTO;
+import com.example.umc10th.domain.auth.dto.AuthResDTO;
 import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.Term;
@@ -14,6 +15,7 @@ import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.member.repository.TermRepository;
 import com.example.umc10th.domain.member.repository.mapping.MemberFoodRepository;
 import com.example.umc10th.domain.member.repository.mapping.MemberTermRepository;
+import com.example.umc10th.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class AuthService {
     private final MemberFoodRepository memberFoodRepository;
     private final MemberTermRepository memberTermRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public Member signUp(AuthReqDTO.SignUp request) {
         String encodedPassword = passwordEncoder.encode(request.password());
@@ -71,5 +74,21 @@ public class AuthService {
         memberTermRepository.saveAll(memberTermList);
 
         return savedMember;
+    }
+
+    public AuthResDTO.LoginResult login(AuthReqDTO.Login request) {
+        Member member = memberRepository.findByEmail(request.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(request.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        String token = jwtTokenProvider.createToken(member.getEmail());
+
+        return AuthResDTO.LoginResult.builder()
+                .memberId(member.getId())
+                .accessToken(token)
+                .build();
     }
 }

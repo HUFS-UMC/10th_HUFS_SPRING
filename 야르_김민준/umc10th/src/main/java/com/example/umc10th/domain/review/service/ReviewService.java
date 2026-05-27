@@ -27,11 +27,11 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
-    // 리뷰 작성 (Create)
+    // 리뷰 작성 (Create) - memberId를 파라미터로 받음
     @Transactional
-    public Review createReview(ReviewReqDTO.ReviewCreateDTO request) {
+    public Review createReview(ReviewReqDTO.ReviewCreateDTO request, Long memberId) {
 
-        Member member = memberRepository.findById(request.getMemberId())
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         Store store = storeRepository.findById(request.getStoreId())
