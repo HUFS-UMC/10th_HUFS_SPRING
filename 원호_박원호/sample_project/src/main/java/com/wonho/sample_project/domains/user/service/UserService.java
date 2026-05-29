@@ -5,6 +5,8 @@ import com.wonho.sample_project.domains.user.entity.User;
 import com.wonho.sample_project.domains.user.entity.UserMission;
 import com.wonho.sample_project.domains.user.repository.UserMissionRepository;
 import com.wonho.sample_project.domains.user.repository.UserRepository;
+import com.wonho.sample_project.global.entity.AuthMember;
+import com.wonho.sample_project.global.util.JwtUtil;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMissionRepository userMissionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public User createUser(UserRequestDTO.CreateUser user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -56,6 +59,16 @@ public class UserService {
                 .detailAddress(user.getDetail_address())
                 .address(user.getAddress())
                 .email(user.getEmail())
+                .build();
+    }
+
+    public UserRequestDTO.LoginUser getLoginUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        AuthMember member = AuthMember.builder().user(user).build();
+
+        String accesstoken = jwtUtil.createAccessToken(member);
+        return UserRequestDTO.LoginUser.builder()
+                .accessToken(accesstoken)
                 .build();
     }
 

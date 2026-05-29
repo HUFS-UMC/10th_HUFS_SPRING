@@ -57,6 +57,13 @@ public class UserRequestDTO {
     @AllArgsConstructor
     @Builder
     @Getter
+    public static class LoginUser{
+        private String accessToken;
+    }
+
+    @AllArgsConstructor
+    @Builder
+    @Getter
     public static class GetMission {
         private List<MissionInfo> missions;
         private Integer page;

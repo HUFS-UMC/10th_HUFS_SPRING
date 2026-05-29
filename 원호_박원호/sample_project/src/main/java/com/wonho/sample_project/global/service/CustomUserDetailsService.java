@@ -17,10 +17,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public AuthMember loadUserByUsername(String username) throws GeneralHttpException {
-        System.out.println("username: " + username);
         User user = userRepository.findUserByName(username)
                 .orElseThrow(() -> new GeneralHttpException(GeneralErrorCode.BAD_REQUEST));
-        System.out.println("user found: " + user.getName());
+
         return new AuthMember(user);
     }
 }

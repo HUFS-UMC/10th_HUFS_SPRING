@@ -5,9 +5,14 @@ import com.wonho.sample_project.domains.user.entity.User;
 import com.wonho.sample_project.domains.user.service.UserService;
 import com.wonho.sample_project.global.api.ApiResponse;
 import com.wonho.sample_project.global.api.code.BaseSuccessCode;
+import com.wonho.sample_project.global.api.code.GeneralErrorCode;
 import com.wonho.sample_project.global.api.code.GeneralSuccessCode;
+import com.wonho.sample_project.global.entity.AuthMember;
+import com.wonho.sample_project.global.exception.GeneralHttpException;
+import com.wonho.sample_project.global.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping
     @ResponseBody
@@ -30,9 +36,13 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @ResponseBody
-    public ApiResponse<UserRequestDTO.GetUser> getUser(@PathVariable Long userId) {
+    public ApiResponse<UserRequestDTO.LoginUser> getUser(@PathVariable Long userId) {
+
+
+        System.out.println("얘도작동...");
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        UserRequestDTO.GetUser result = userService.getUser(userId);
+        UserRequestDTO.LoginUser result = userService.getLoginUser(userId);
+
         return ApiResponse.onSuccess(code, result);
     }
 
@@ -42,7 +52,14 @@ public class UserController {
             @PathVariable Long userId,
             @RequestParam(required = false) Boolean isCompleted,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size) {
+            @RequestParam(defaultValue = "10") Integer size,
+
+            @AuthenticationPrincipal AuthMember authMember) {
+
+        if (!authMember.getUser().getUser_id().equals(userId)){
+            throw new GeneralHttpException(GeneralErrorCode.UNAUTHORIZED);
+        }
+
         BaseSuccessCode code = GeneralSuccessCode.OK;
         UserRequestDTO.GetMission result = userService.getUserMissions(userId, isCompleted, page, size);
         return ApiResponse.onSuccess(code, result);
