@@ -2,6 +2,7 @@ package com.example.umc10th.domain.member.controller;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
@@ -10,10 +11,12 @@ import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.enums.ReviewSortType;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.security.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "회원", description = "회원 관련 API")
@@ -77,5 +80,38 @@ public class MemberRestController {
             @RequestParam Long locationId,
             @RequestParam(defaultValue = "0") Integer page) {
         return ApiResponse.onSuccess(missionService.getHomeMissions(memberId, locationId, page));
+    }
+
+    // ── [8주차] 마이페이지 v2 — JWT 기반 ──────────────────────────────────────
+    /**
+     * GET /members/me
+     *
+     * <p>Authorization 헤더의 Bearer 토큰을 JwtAuthFilter가 파싱하여
+     * SecurityContextHolder에 저장한 {@link AuthMember}를 꺼내 현재 로그인한 회원 정보를 반환합니다.
+     *
+     * <p>{@code @AuthenticationPrincipal}은 SecurityContextHolder의 Authentication 객체에서
+     * principal을 꺼내주는 어노테이션입니다. JwtAuthFilter에서 {@code UserDetails}로
+     * {@code AuthMember}를 저장했으므로 타입 캐스팅 없이 바로 주입됩니다.
+     */
+    @Operation(
+        summary = "마이페이지 v2 (JWT)",
+        description = "Authorization: Bearer {accessToken} 헤더를 파싱하여 현재 로그인한 회원 정보를 반환합니다."
+    )
+    @GetMapping("/me")
+    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(
+            @AuthenticationPrincipal AuthMember authMember) {
+
+        Member member = authMember.getMember();
+
+        MemberResDTO.MyPageDTO myPage = MemberResDTO.MyPageDTO.builder()
+                .memberId(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .gender(member.getGender())
+                .address(member.getAddress())
+                .totalPoints(member.getTotalPoints())
+                .build();
+
+        return ApiResponse.onSuccess(myPage);
     }
 }
