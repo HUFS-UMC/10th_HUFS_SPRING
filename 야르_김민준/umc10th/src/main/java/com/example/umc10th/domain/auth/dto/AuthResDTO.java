@@ -12,4 +12,11 @@ public class AuthResDTO {
             Long memberId,
             LocalDateTime createdAt
     ) {}
+
+    // 로그인 응답 DTO
+    @Builder
+    public record LoginResult(
+            Long memberId,
+            String accessToken
+    ) {}
 }

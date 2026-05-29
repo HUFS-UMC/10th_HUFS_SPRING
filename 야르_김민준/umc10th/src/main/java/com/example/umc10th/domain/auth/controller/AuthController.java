@@ -31,4 +31,14 @@ public class AuthController {
         Member member = authService.signUp(request);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, AuthConverter.toSignUpResult(member));
     }
+
+    // 로그인 API
+    @PostMapping("/login")
+    @Operation(summary = "로그인 API", description = "로그인을 진행합니다.")
+    public ApiResponse<AuthResDTO.LoginResult> login(
+            @RequestBody @Valid AuthReqDTO.Login request
+    ) {
+        AuthResDTO.LoginResult result = authService.login(request);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
 }
