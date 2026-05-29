@@ -30,16 +30,19 @@ public class Member extends BaseEntity {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private Gender gender;
 
     private LocalDate birth;
 
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String address;
 
     @Column(length = 255)
     private String detailAddress;
+
+    @Column(nullable = false, length = 20)
+    private String role;
 
     @Column(nullable = false)
     @Builder.Default

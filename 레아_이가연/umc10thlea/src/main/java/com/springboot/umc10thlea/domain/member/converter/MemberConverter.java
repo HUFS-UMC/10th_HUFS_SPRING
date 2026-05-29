@@ -2,6 +2,8 @@ package com.springboot.umc10thlea.domain.member.converter;
 
 import com.springboot.umc10thlea.domain.member.dto.MemberMissionDetailResDto;
 import com.springboot.umc10thlea.domain.member.dto.MemberMissionListResDto;
+import com.springboot.umc10thlea.domain.member.dto.MemberLoginResDto;
+import com.springboot.umc10thlea.domain.member.dto.MemberMyPageResDto;
 import com.springboot.umc10thlea.domain.member.dto.MemberSignUpReqDto;
 import com.springboot.umc10thlea.domain.member.dto.MemberSignUpResDto;
 import com.springboot.umc10thlea.domain.member.entity.Food;
@@ -17,15 +19,15 @@ import java.util.stream.Collectors;
 
 public class MemberConverter {
 
+    private static final String DEFAULT_ROLE = "USER";
+
     public static Member toMember(MemberSignUpReqDto request, String encodedPassword) {
         return Member.builder()
                 .nickname(request.getName())
                 .email(request.getEmail())
                 .password(encodedPassword)
-                .gender(request.getGender())
-                .birth(request.getBirth())
-                .address(request.getAddress())
-                .detailAddress(request.getDetailAddress())
+                .phoneNumber(request.getPhoneNumber())
+                .role(DEFAULT_ROLE)
                 .build();
     }
 
@@ -33,6 +35,22 @@ public class MemberConverter {
         return MemberSignUpResDto.builder()
                 .memberId(member.getId())
                 .createdAt(member.getCreatedAt())
+                .build();
+    }
+
+    public static MemberLoginResDto toMemberLoginResDto(String accessToken) {
+        return MemberLoginResDto.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static MemberMyPageResDto toMemberMyPageResDto(Member member, Long reviewCount) {
+        return MemberMyPageResDto.builder()
+                .nickname(member.getNickname())
+                .email(member.getEmail())
+                .phoneNumber(member.getPhoneNumber())
+                .point(member.getPoint())
+                .reviewCount(reviewCount)
                 .build();
     }
 

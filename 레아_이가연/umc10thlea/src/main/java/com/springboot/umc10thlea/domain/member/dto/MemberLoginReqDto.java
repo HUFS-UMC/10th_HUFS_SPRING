@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "회원가입 요청")
-public class MemberSignUpReqDto {
+@Schema(description = "로그인 요청")
+public class MemberLoginReqDto {
     @NotBlank
     @Email
     @Schema(description = "이메일", example = "test@t.t")
@@ -20,12 +20,4 @@ public class MemberSignUpReqDto {
     @NotBlank
     @Schema(description = "비밀번호", example = "test")
     private String password;
-
-    @NotBlank
-    @Schema(description = "이름", example = "test")
-    private String name;
-
-    @NotBlank
-    @Schema(description = "전화번호", example = "01012345678")
-    private String phoneNumber;
 }
